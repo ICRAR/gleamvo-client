@@ -96,7 +96,7 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
                    freq=[], clobber=True, file_name_func=None,
                    **kwargs):
     """
-    ra, dec:		Degree (float)
+    ra, dec, ang_size:	Degrees (float)
     download_dir	Directory where images will be saved to (String).
 			Leaving it None (default) results in no downloading
     proj_opt:   	String, possible values:
@@ -105,10 +105,15 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
                 	'SIN'
     freq:       	A list of frequencies, e.g. ['223-231' '216-223']
                 	An empty list means ALL
+    clobber:		Overwrite existing images? (Boolean)
     file_name_func:
                 	is an optional function to create file name as you like.
                 	Leaving it None will use the default "create_filename()"
     """
+    if (ang_size > 5.0):
+        raise GleamClientException("Angular size %.1f > 5.0 (degrees)"\
+         % ang_size)
+
     if (download_dir and (not os.path.exists(download_dir))):
         raise GleamClientException("Invalid download dir: {0}"\
               .format(download_dir))
@@ -126,7 +131,10 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
     #print url
     u = urlopen(url, timeout=200)
     warnings.simplefilter("ignore")
-    tbl = parse_single_table(u.fp).array
+    try:
+        tbl = parse_single_table(u.fp).array
+    except IndexError as ierr:
+        raise GleamClientException('No results in the VO query: %s' % str(ierr))
     warnings.simplefilter("default")
     ignore_freq = len(freq) == 0
     c = 0
@@ -148,8 +156,7 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
                 print(r_freq, r_url)
             c += 1
     if (c == 0):
-        warnings.warn("Invalid Freq {0}".format(freq))
-
+        warnings.warn("So results from the VO query")
 
 def usage_examples():
     """
