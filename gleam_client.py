@@ -96,18 +96,24 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
                    freq=[], clobber=True, file_name_func=None,
                    **kwargs):
     """
-    ra, dec, ang_size:	Degrees (float)
-    download_dir	Directory where images will be saved to (String).
-			Leaving it None (default) results in no downloading
-    proj_opt:   	String, possible values:
+    ra, dec,
+    ang_size:	    Position and angular size in degrees (float)
+
+    download_dir:	Directory where images will be saved to (String).
+			        Leaving it None (default) will not download any images
+
+    proj_opt:   	Legitimit values (String):
                 	'ZEA'   (default)
                 	'ZEA_regrid'
                 	'SIN'
+
     freq:       	A list of frequencies, e.g. ['223-231' '216-223']
                 	An empty list means ALL
+
     clobber:		Overwrite existing images? (Boolean)
+
     file_name_func:
-                	is an optional function to create file name as you like.
+                	An optional function to create file name as you like.
                 	Leaving it None will use the default "create_filename()"
     """
     if (ang_size > 5.0):
