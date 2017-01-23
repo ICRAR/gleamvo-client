@@ -156,7 +156,7 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
                 print(r_freq, r_url)
             c += 1
     if (c == 0):
-        warnings.warn("So results from the VO query")
+        warnings.warn("No results from the VO query")
 
 def usage_examples():
     """
