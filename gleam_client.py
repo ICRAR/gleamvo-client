@@ -94,7 +94,7 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
                    download_dir=None,
                    vo_host='gleam-vo.icrar.org',
                    freq=[], clobber=True, file_name_func=None,
-                   **kwargs):
+                   alter_cmd=None, **kwargs):
     """
     ra, dec,
     ang_size:	    Position and angular size in degrees (float)
@@ -154,6 +154,8 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
         if (ignore_freq or r_freq in freq):
             if (tail):
                 r_url += '&%s' % tail
+            if (alter_cmd is not None and len(alter_cmd) > 0):
+                r_url = r_url.replace('GLEAMCUTOUT', alter_cmd)
             if (download_dir):
                 download_file(r_url, ra, dec, ang_size, r_freq,
                               download_dir, clobber=clobber,
