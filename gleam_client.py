@@ -213,7 +213,7 @@ def usage_examples():
     vo_get(ra, dec, ang_size, proj_opt=projection, freq=freq_low, download_dir=dl_dir)
 
     # example 3 - download all frequencies (Not specifying freq means ALL freqs)
-    # vo_get(ra, dec, ang_size, proj_opt=projection, download_dir=dl_dir)
+    vo_get(ra, dec, ang_size, proj_opt=projection, download_dir=dl_dir)
 
-if __name__ == '__main__':
-    usage_examples()
+# if __name__ == '__main__':
+#     usage_examples()
