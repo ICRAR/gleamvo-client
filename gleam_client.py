@@ -82,7 +82,7 @@ def download_file(url, ra, dec, ang_size, freq, download_dir,
         derror = True
 
     if (3 == python_ver):
-        block_sz = 4096
+        block_sz = 1024 * 256
     else:
         block_sz = u.fp.bufsize
     fulnm = download_dir + "/" + filename
