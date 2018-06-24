@@ -16,8 +16,11 @@ Author: chen.wu@icrar.org
 import os, warnings
 try:
     from urllib2 import urlopen, quote, HTTPError
+    python_ver = 2
 except:
     from urllib.request import urlopen, quote, HTTPError
+    from io import StringIO, BytesIO
+    python_ver = 3
 from astropy.io.votable import parse_single_table
 
 PROJ_OPTS = ['ZEA', 'ZEA_regrid', 'SIN']
@@ -140,10 +143,26 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
     #print url
     u = urlopen(url, timeout=200)
     warnings.simplefilter("ignore")
-    try:
-        tbl = parse_single_table(u.fp).array
-    except IndexError as ierr:
-        raise GleamClientException('No results in the VO query: %s' % str(ierr))
+    if (2 == python_ver):
+        try:
+            tbl = parse_single_table(u.fp).array
+            #print(tbl)
+        except IndexError as ierr:
+            raise GleamClientException('No results in the VO query: %s' % str(ierr))
+    elif (3 == python_ver):
+        buf = []
+        while True:
+            buff = u.read(1024)
+            if not buff:
+                break
+            buf.append(buff.decode("utf-8"))
+        vo_table = ''.join(buf)
+        #print(vo_table)
+        fp = BytesIO(vo_table.encode('utf-8'))
+        tbl = parse_single_table(fp).array
+        #print(tbl)
+    else:
+        raise Exception('Unknown Python version %d' % python_ver)
     warnings.simplefilter("default")
     ignore_freq = len(freq) == 0
     c = 0
@@ -154,6 +173,9 @@ def vo_get(ra, dec, ang_size, proj_opt='ZEA',
     for row in tbl:
         r_freq = row[0]
         r_url = row[1]
+        if (3 == python_ver):
+            r_freq = r_freq.decode("utf-8")
+            r_url = r_url.decode("utf-8")
         if (ignore_freq or r_freq in freq):
             if (tail):
                 r_url += '&%s' % tail
@@ -189,3 +211,6 @@ def usage_examples():
 
     # example 3 - download all frequencies (Not specifying freq means ALL freqs)
     vo_get(ra, dec, ang_size, proj_opt=projection, download_dir=dl_dir)
+
+# if __name__ == '__main__':
+#     usage_examples()
