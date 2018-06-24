@@ -81,7 +81,10 @@ def download_file(url, ra, dec, ang_size, freq, download_dir,
         filename = file_name_func(ra, dec, ang_size, freq, error=True)
         derror = True
 
-    block_sz = u.fp.bufsize
+    if (3 == python_ver):
+        block_sz = 4096
+    else:
+        block_sz = u.fp.bufsize
     fulnm = download_dir + "/" + filename
     with open(fulnm, 'wb') as f:
         while True:
@@ -210,7 +213,7 @@ def usage_examples():
     vo_get(ra, dec, ang_size, proj_opt=projection, freq=freq_low, download_dir=dl_dir)
 
     # example 3 - download all frequencies (Not specifying freq means ALL freqs)
-    vo_get(ra, dec, ang_size, proj_opt=projection, download_dir=dl_dir)
+    # vo_get(ra, dec, ang_size, proj_opt=projection, download_dir=dl_dir)
 
-# if __name__ == '__main__':
-#     usage_examples()
+if __name__ == '__main__':
+    usage_examples()
