@@ -14,7 +14,10 @@ gleam_client.vo_get(50.67, -37.02, 1.0, freq=['072-080', '080-088'],
 Author: chen.wu@icrar.org
 """
 import os, warnings
-from urllib2 import urlopen, quote, HTTPError
+try:
+    from urllib2 import urlopen, quote, HTTPError
+except:
+    from urllib.request import urlopen, quote, HTTPError
 from astropy.io.votable import parse_single_table
 
 PROJ_OPTS = ['ZEA', 'ZEA_regrid', 'SIN']
