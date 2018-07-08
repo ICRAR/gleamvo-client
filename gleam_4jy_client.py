@@ -96,5 +96,5 @@ def vo_get(pos, download_dir=None):
         else:
             print('File %s' % fid)
 
-if __name__ == '__main__':
-    vo_get('23:22:03 -24:10:44', download_dir='/tmp')
+# if __name__ == '__main__':
+#     vo_get('23:22:03 -24:10:44', download_dir='/tmp')
