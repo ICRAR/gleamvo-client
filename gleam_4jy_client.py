@@ -55,16 +55,17 @@ def download_file(fid, download_dir):
             f.write(buff)
     print("File %s saved to %s" % (fid, fulnm))
 
-def vo_get(pos, download_dir=None):
+def vo_get(pos, sr=5.0, download_dir=None):
     """
     pos - Position string, i.e. '23:22:03 -24:10:44' or '23:22:03,-24:10:44'
+    sr - search radius in arcmin, default here is 5 arcmin
     """
     if (download_dir and (not os.path.exists(download_dir))):
         raise GleamClientException("Invalid download dir: {0}"\
               .format(download_dir))
 
-    url = '%s&POS=%s' % (g_url, quote(pos))
-    print(url)
+    url = '%s&POS=%s&sr=%s' % (g_url, quote(pos), quote(str(sr)))
+    #print(url)
     u = urlopen(url, timeout=200)
     warnings.simplefilter("ignore")
     if (2 == python_ver):
@@ -98,3 +99,4 @@ def vo_get(pos, download_dir=None):
 
 # if __name__ == '__main__':
 #     vo_get('23:22:03 -24:10:44', download_dir='/tmp')
+#     vo_get('22:23:47 -02:01:39')
