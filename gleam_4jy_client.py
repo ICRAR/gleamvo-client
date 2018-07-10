@@ -8,7 +8,7 @@ Dependency: pip install -U astropy
 Usage example
 ====
 import gleam_4jy_client
-gleam_4jy_client.vo_get('23:22:03 -24:10:44', download_dir='/tmp')
+gleam_4jy_client.vo_get('22:23:47 -02:01:39', download_dir='/tmp')
 ====
 Any issues, please contact: chen.wu@icrar.org
 """
@@ -57,7 +57,7 @@ def download_file(fid, download_dir):
 
 def vo_get(pos, sr=5.0, download_dir=None):
     """
-    pos - Position string, i.e. '23:22:03 -24:10:44' or '23:22:03,-24:10:44'
+    pos - Position string, i.e. '22:23:47 -02:01:39' or '22:23:47,-02:01:39'
     sr - search radius in arcmin, default here is 5 arcmin
     """
     if (download_dir and (not os.path.exists(download_dir))):
