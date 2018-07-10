@@ -21,7 +21,7 @@ except:
     from io import StringIO, BytesIO
     python_ver = 3
 
-from gleam_client import VO_URL, GleamClientException
+from gleam_client import GleamClientException
 from astropy.io.votable import parse_single_table
 
 g_url = "http://mwa-web.icrar.org/gleam_4jy/q/siap.xml?FORMAT=ALL&VERB=2"\
