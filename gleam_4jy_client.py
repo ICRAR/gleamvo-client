@@ -30,7 +30,7 @@ g_url = "http://mwa-web.icrar.org/gleam_4jy/q/siap.xml?FORMAT=ALL&VERB=2"\
 ngas_url = 'http://store06.icrar.org:7777/RETRIEVE?file_id=%s'
 
 
-def download_file(fid, download_dir):
+def download_file(fid, download_dir, clobber=False):
     fulnm = '%s/%s' % (download_dir, fid)
     if (os.path.exists(fulnm) and not clobber):
         print("File '%s' exists already" % fulnm)
@@ -55,7 +55,7 @@ def download_file(fid, download_dir):
             f.write(buff)
     print("File %s saved to %s" % (fid, fulnm))
 
-def vo_get(pos, sr=5.0, download_dir=None):
+def vo_get(pos, sr=5.0, download_dir=None, clobber=False):
     """
     pos - Position string, i.e. '22:23:47 -02:01:39' or '22:23:47,-02:01:39'
     sr - search radius in arcmin, default here is 5 arcmin
@@ -93,7 +93,7 @@ def vo_get(pos, sr=5.0, download_dir=None):
             fid = fid.decode("utf-8")
         #print(fid)
         if (download_dir is not None):
-            download_file(fid, download_dir)
+            download_file(fid, download_dir, clobber=clobber)
         else:
             print('File %s' % fid)
 
