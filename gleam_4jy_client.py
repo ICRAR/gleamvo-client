@@ -36,7 +36,7 @@ def download_file(fid, download_dir, clobber=False):
         print("File '%s' exists already" % fulnm)
         return
     try:
-        download_url = ngas_url % fid
+        download_url = ngas_url % quote(fid)
         u = urlopen(download_url, timeout=200)
     except Exception as exp:
         print('Failed to download from %s: %s' % (download_url, str(exp)))
