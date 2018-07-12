@@ -18,10 +18,9 @@ try:
     python_ver = 2
 except:
     from urllib.request import urlopen, quote, HTTPError
-    from io import StringIO, BytesIO
+    from io import BytesIO
     python_ver = 3
 
-from gleam_client import GleamClientException
 from astropy.io.votable import parse_single_table
 
 g_url = "http://mwa-web.icrar.org/gleam_4jy/q/siap.xml?FORMAT=ALL&VERB=2"\
@@ -61,7 +60,7 @@ def vo_get(pos, sr=5.0, download_dir=None, clobber=False):
     sr - search radius in arcmin, default here is 5 arcmin
     """
     if (download_dir and (not os.path.exists(download_dir))):
-        raise GleamClientException("Invalid download dir: {0}"\
+        raise Exception("Invalid download dir: {0}"\
               .format(download_dir))
 
     url = '%s&POS=%s&sr=%s' % (g_url, quote(pos), quote(str(sr)))
@@ -84,7 +83,7 @@ def vo_get(pos, sr=5.0, download_dir=None, clobber=False):
     try:
         tbl = parse_single_table(fp).array
     except IndexError as ierr:
-        raise GleamClientException('No results in the VO query: %s' % str(ierr))
+        raise Exception('No results in the VO query: %s' % str(ierr))
     warnings.simplefilter("default")
     #print(tbl)
     for row in tbl:
