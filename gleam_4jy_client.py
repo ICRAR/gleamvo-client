@@ -14,10 +14,10 @@ Any issues, please contact: chen.wu@icrar.org
 """
 import os, warnings
 try:
-    from urllib2 import urlopen, quote, HTTPError
+    from urllib2 import urlopen, quote, HTTPError, Request
     python_ver = 2
 except:
-    from urllib.request import urlopen, quote, HTTPError
+    from urllib.request import urlopen, quote, HTTPError, Request
     from io import BytesIO
     python_ver = 3
 
@@ -65,7 +65,9 @@ def vo_get(pos, sr=5.0, download_dir=None, clobber=False):
 
     url = '%s&POS=%s&sr=%s' % (g_url, quote(pos), quote(str(sr)))
     #print(url)
-    u = urlopen(url, timeout=200)
+    req = Request(url, headers={'User-Agent': "Magic Browser"})
+    u = urlopen(req)
+    #u = urlopen(url, timeout=200)
     warnings.simplefilter("ignore")
     if (2 == python_ver):
         fp = u.fp
